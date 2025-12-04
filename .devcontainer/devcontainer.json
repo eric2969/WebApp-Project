@@ -1,0 +1,33 @@
+{
+  "name": "Devcontainer with MySQL",
+  "dockerComposeFile": "docker-compose.yml", // 引用根目錄的 docker-compose.yml
+  "service": "app", // 使用 compose 中的 'app' 服務作為開發環境
+  "workspaceFolder": "/workspace", // 專案掛載位置
+
+  // 擴展設定 (可選)
+  // "features": {
+  //   "ghcr.io/devcontainers/features/node:1": {
+  //     "version": "latest"
+  //   }
+  // },
+
+  // 環境變數 (Prisma 等用)
+  // "containerEnv": {
+  //  "DATABASE_URL": "mysql://user:password@db:3306/mydb"  // 內部連線，用服務名 'db'
+  // },
+
+  // 啟動後命令 (可選，自動生成 Prisma Client)
+  //"postCreateCommand": "npm install && npx prisma generate",
+
+  // 轉送埠 (MySQL 暴露到主機)
+
+  // 其他 VS Code 擴展
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.vscode-typescript-next", // TypeScript
+        "prisma.prisma" // Prisma 擴展
+      ]
+    }
+  }
+}

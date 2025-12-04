@@ -1,0 +1,68 @@
+// prisma/schema.prisma
+enum Role {
+  USER
+  ADMIN
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String        @id @default(cuid())
+  email          String        @unique
+  hashedPassword String? // 加這行：String 類型，? 表示選用
+  name           String?
+  image          String? // 照片 URL
+  bio            String? // 簡介
+  balance        Float         @default(10000.0) // 模擬帳戶金額 (USD)
+  role           Role          @default(USER) // USER 或 ADMIN
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  transactions   Transaction[]
+}
+
+model InvestmentTarget {
+  id           String        @id @default(cuid())
+  symbol       String        @unique // e.g., "BTC-USDT"
+  name         String // e.g., "Bitcoin Spread"
+  type         String
+  createdAt    DateTime      @default(now())
+  transactions Transaction[]
+}
+
+model Transaction {
+  id         String           @id @default(cuid())
+  userId     String
+  targetId   String // 投資標的 ID
+  type       String // "BUY" 或 "SELL" (價差合約)
+  amount     Float // 投資金額
+  entryPrice Float // 進場價
+  exitPrice  Float? // 出場價 (平倉後)
+  profitLoss Float? // 盈虧
+  status     String           @default("OPEN") // OPEN/CLOSED
+  createdAt  DateTime         @default(now())
+  closeAt    DateTime?        @default(now())
+  quantity   Float            @default(0)
+  user       User             @relation(fields: [userId], references: [id])
+  target     InvestmentTarget @relation(fields: [targetId], references: [id])
+}
+
+model KLineData {
+  id        String   @id @default(cuid())
+  symbol    String
+  timeframe String   @default("1m") // 固定 1m
+  timestamp DateTime
+  open      Float
+  high      Float
+  low       Float
+  close     Float
+  volume    Float
+
+  @@unique([symbol, timestamp])
+}

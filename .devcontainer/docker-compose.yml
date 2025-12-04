@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  app: # 開發環境服務 (Node.js)
+    image: ghcr.io/codesandbox/devcontainers/typescript-node:latest
+    volumes:
+      - ..:/workspace:cached
+    command: sleep infinity # 保持容器運行
+    depends_on:
+      - db
+  db: # 服務名稱，可自訂
+    image: mysql:8.0 # MySQL 版本
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=1145141919810 # 根密碼，自訂
+      - MYSQL_DATABASE=mydb # 預設資料庫名，自訂
+      - MYSQL_USER=webapp # 可選：新增使用者
+      - MYSQL_PASSWORD=1145141919810 # 可選：使用者密碼
+    ports:
+      - "18763:3306" # 暴露埠：主機:容器
+    volumes:
+      - db:/var/lib/mysql # 持久化資料
+volumes:
+  db: # 命名 volume
