@@ -4,22 +4,22 @@ services:
       context: ..
       dockerfile: container/Dockerfile
     environment:
-      - NEXTAUTH_SECRET=114514
-      - FINNHUB_API_KEY=d4kus89r01qt7v17drf0d4kus89r01qt7v17drfg
-      - DATABASE_URL=mysql://webapp:1145141919810@db:3306/mydb
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - FINNHUB_API_KEY=${FINNHUB_API_KEY}
+      - DATABASE_URL=${DATABASE_URL}
     restart: always
     ports:
-      - "8080:3000"
+      - "3000:3000"
     depends_on:
       - db
   db: # 服務名稱，可自訂
     image: mysql:8.0 # MySQL 版本
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=1145141919810 # 根密碼，自訂
-      - MYSQL_DATABASE=mydb # 預設資料庫名，自訂
-      - MYSQL_USER=webapp # 可選：新增使用者
-      - MYSQL_PASSWORD=1145141919810 # 可選：使用者密碼
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} # 根密碼，自訂
+      - MYSQL_DATABASE=${MYSQL_DATABASE} # 預設資料庫名，自訂
+      - MYSQL_USER=${MYSQL_USER} # 可選：新增使用者
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD} # 可選：使用者密碼
     volumes:
       - db:/var/lib/mysql # 持久化資料
 volumes:
