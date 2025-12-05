@@ -1,9 +1,8 @@
 services:
   app:
-    image: 
-      build:
-        context: .
-        dockerfile: Dockerfile
+    build:
+      context: .
+      dockerfile: Dockerfile
     environment:
       - NEXTAUTH_SECRET=114514
       - FINNHUB_API_KEY=d4kus89r01qt7v17drf0d4kus89r01qt7v17drfg
