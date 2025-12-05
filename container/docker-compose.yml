@@ -1,10 +1,18 @@
-version: "3.8"
 services:
-  app: # 開發環境服務 (Node.js)
-    image: ghcr.io/codesandbox/devcontainers/typescript-node:latest
+  app:
+    image: 
+      build:
+        context: .
+        dockerfile: Dockerfile
+    environment:
+      - NEXTAUTH_SECRET=114514
+      - FINNHUB_API_KEY=d4kus89r01qt7v17drf0d4kus89r01qt7v17drfg
+      - DATABASE_URL=mysql://webapp:1145141919810@db:3306/mydb
+    restart: always
+    ports:
+      - "8080:3000"
     volumes:
-      - ..:/workspace:cached
-    command: sleep infinity # 保持容器運行
+      - ../:/app
     depends_on:
       - db
   db: # 服務名稱，可自訂
@@ -15,8 +23,6 @@ services:
       - MYSQL_DATABASE=mydb # 預設資料庫名，自訂
       - MYSQL_USER=webapp # 可選：新增使用者
       - MYSQL_PASSWORD=1145141919810 # 可選：使用者密碼
-    ports:
-      - "18763:3306" # 暴露埠：主機:容器
     volumes:
       - db:/var/lib/mysql # 持久化資料
 volumes:

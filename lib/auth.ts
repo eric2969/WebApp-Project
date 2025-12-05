@@ -82,7 +82,7 @@ export const authOptions: AuthOptions = {
     }),
     // 加其他 providers 如 Google...
   ],
-  secret: "114514",
+  secret:  process.env.NEXTAUTH_SECRET,
   session: { strategy: "jwt" },
   callbacks: {
     async jwt({ token, user }) {
